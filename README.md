@@ -27,10 +27,39 @@ This repository contains the Software module of the SunSensor project. It delive
 * Displays a visual error margin in the form of a directional cone.
 * Updates the simulation scene in real time based on incoming data.
 
-### Technology Stack
+## Setup and Configuration
 
-* **Unity** – For 3D graphics and simulation.
-* **C#** – Core scripting language for Unity.
+Follow these steps to get the project up and running:
+
+1. Install Unity Hub 
+
+- Download and install [Unity Hub](https://unity.com/download).
+
+2. Install Unity Editor
+
+- In Unity Hub, switch to the "Installs/Add Unity Editor".  
+- Install version **2022.3.19f1**.
+
+3. Install Visual Studio
+
+- If you don’t already have IDE, download and install [Visual Studio](https://visualstudio.microsoft.com/).
+- During installation, select the "Game development with Unity" workload to get the Unity editor integration and C# tools.
+
+4. Clone repository
+
+```bash
+git clone https://github.com/SEEK-Academy/sun-sensor-software.git
+```
+
+5. Project in Unity Editor
+
+- In Unity Hub, click "Add", navigate to the cloned project folder and select it.
+- Double-click to launch the project in the Unity Editor.
+
+6. Configure external script editor
+
+- In Unity Editor, go to "Edit/Preferences…/External Tools".
+- Set External Script Editor to your IDE (e.g. Visual Studio).
 
 ## How to use
 
