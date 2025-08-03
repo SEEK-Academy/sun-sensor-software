@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.SunSensor.Interfaces;
 using Seek.SunSensor.V1;
 using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -33,23 +34,37 @@ namespace Assets.Scripts.SunSensor.Sources.UsbSunSensor
 
             IsActive = false;
             _cts?.Cancel();
-            _readTask?.Wait();
+
+            try
+            {
+                _readTask?.Wait();
+            }
+            catch (AggregateException ex)
+            {
+                ex.Handle(inner => inner is TaskCanceledException);
+            }
         }
 
         public void Dispose() => Stop();
 
         private async Task EmitLoop()
         {
+            var sw = Stopwatch.StartNew();
+
             while (!_cts.IsCancellationRequested)
             {
-                var angle = Time.time;
+                float t = (float)sw.Elapsed.TotalSeconds;
+                var x = Mathf.Sin(t) * 30f;
+                var y = Mathf.Sin(t * 0.5f) * 45f;
+                var z = Mathf.Sin(t * 0.8f) * 60f;
+
                 var data = new SunSensorData
                 {
                     UnitVector = new Vector
                     {
-                        X = Mathf.Cos(angle),
-                        Y = Mathf.Sin(angle),
-                        Z = 0
+                        X = x,
+                        Y = y,
+                        Z = z
                     },
                     ErrorCode = ErrorCode.Ok
                 };
@@ -58,6 +73,8 @@ namespace Assets.Scripts.SunSensor.Sources.UsbSunSensor
 
                 await Task.Delay(60, _cts.Token);
             }
+
+            sw.Stop();
         }
     }
 }
