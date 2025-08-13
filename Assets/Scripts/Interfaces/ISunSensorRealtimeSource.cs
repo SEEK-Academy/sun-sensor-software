@@ -3,6 +3,7 @@ using System;
 
 namespace Assets.Scripts.Interfaces
 {
+    [Obsolete("Use `ISunVectorRealtimeSource` instead.")]
     internal interface ISunSensorRealtimeSource : IDisposable
     {
         event Action<SunSensorData> DataReceived;
