@@ -1,6 +1,5 @@
-using Assets.Scripts.SunSensor.Interfaces;
-using Assets.Scripts.SunSensor.Sources.UsbSunSensor;
-using System;
+using Assets.Scripts.Interfaces;
+using Assets.Scripts.Sources.UsbSunSensor;
 using UnityEngine;
 
 public class SimulatedSensor : MonoBehaviour

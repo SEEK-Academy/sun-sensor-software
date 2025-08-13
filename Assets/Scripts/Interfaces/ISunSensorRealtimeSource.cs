@@ -1,7 +1,7 @@
 ﻿using Seek.SunSensor.V1;
 using System;
 
-namespace Assets.Scripts.SunSensor.Interfaces
+namespace Assets.Scripts.Interfaces
 {
     internal interface ISunSensorRealtimeSource : IDisposable
     {
