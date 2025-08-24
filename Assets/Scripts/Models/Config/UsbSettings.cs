@@ -2,7 +2,6 @@
 
 namespace Assets.Scripts.Models.Config
 {
-    [Serializable]
     public record UsbSettings
     {
         public int VendorId;

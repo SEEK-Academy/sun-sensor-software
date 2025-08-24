@@ -1,6 +1,8 @@
-﻿namespace Assets.Scripts.Models.Config
+﻿using System;
+
+namespace Assets.Scripts.Models.Config
 {
-    internal enum AppMode
+    public enum AppMode
     {
         Prod,
         TestCentralSequence

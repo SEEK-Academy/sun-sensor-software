@@ -2,17 +2,16 @@
 
 namespace Assets.Scripts.Models.Config
 {
-    [Serializable]
     public record AppSettings
     {
-        public string Mode;
+        public AppMode Mode;
         public UsbSettings UsbSettings;
 
         internal static AppSettings GetDefault()
         {
             return new AppSettings
             {
-                Mode = "Prod",
+                Mode = AppMode.Prod,
                 UsbSettings = UsbSettings.GetDefault()
             };
         }

@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Interfaces;
 using Assets.Scripts.Models.Config;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 using UnityEngine;
@@ -42,7 +43,7 @@ namespace Assets.Scripts.Configurations
             try
             {
                 string json = File.ReadAllText(path);
-                settings =  JsonUtility.FromJson<AppSettings>(json);
+                settings = JsonConvert.DeserializeObject<AppSettings>(json);
             }
             catch (Exception e)
             {

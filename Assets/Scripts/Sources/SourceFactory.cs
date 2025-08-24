@@ -9,11 +9,10 @@ namespace Assets.Scripts.Sources
     {
         public static ISunVectorRealtimeSource CreateSunVectorRealtimeSource(AppSettings settings)
         {
-            Enum.TryParse<AppMode>(settings.Mode, true, out var mode);
-            return mode switch
+            return settings.Mode switch
             {
                 AppMode.TestCentralSequence => new FakedCentralSequenceSunSensorSource(),
-                _ => throw new NotImplementedException($"'{nameof(ISunVectorRealtimeSource)}' is not implemented for AppMode '{mode}'.")
+                _ => throw new NotImplementedException($"`{nameof(ISunVectorRealtimeSource)}` is not implemented for `{settings.Mode}`.")
             };
         }
     }
