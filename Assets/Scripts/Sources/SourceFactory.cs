@@ -5,9 +5,9 @@ using System;
 
 namespace Assets.Scripts.Sources
 {
-    internal static class SourceFactory
+    public static class SourceFactory
     {
-        internal static ISunVectorRealtimeSource CreateSunVectorRealtimeSource(AppSettings settings)
+        public static ISunVectorRealtimeSource CreateSunVectorRealtimeSource(AppSettings settings)
         {
             Enum.TryParse<AppMode>(settings.Mode, true, out var mode);
             return mode switch
