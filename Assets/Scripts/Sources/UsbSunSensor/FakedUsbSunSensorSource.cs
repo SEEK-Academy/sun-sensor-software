@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.SunSensor.Interfaces;
+﻿using Assets.Scripts.Interfaces;
 using Seek.SunSensor.V1;
 using System;
 using System.Diagnostics;
@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Assets.Scripts.SunSensor.Sources.UsbSunSensor
+namespace Assets.Scripts.Sources.UsbSunSensor
 {
     internal class FakedUsbSunSensorSource : ISunSensorRealtimeSource
     {

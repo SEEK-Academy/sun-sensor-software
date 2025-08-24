@@ -1,46 +1,35 @@
-using Assets.Scripts.SunSensor.Interfaces;
-using Assets.Scripts.SunSensor.Sources.UsbSunSensor;
-using System;
+using Assets.Scripts.Configurations;
+using Assets.Scripts.Interfaces;
+using Assets.Scripts.Sources;
 using UnityEngine;
 
 public class SimulatedSensor : MonoBehaviour
 {
-    //float timer = 0f;
-    ISunSensorRealtimeSource source = new FakedUsbSunSensorSource();
-    Quaternion rotation = Quaternion.identity;
+    private ISunVectorRealtimeSource _source;
+    private Quaternion _rotation = Quaternion.identity;
 
-    // Start is called before the first frame update
     private void Awake()
     {
-        source.DataReceived += (data) =>
+        _source = SourceFactory.CreateSunVectorRealtimeSource(ConfigHost.AppSettings);
+
+        _source.DataReceived += (data) =>
         {
             Debug.Log($"Data {data}");
-            rotation = Quaternion.Euler(
-                data.UnitVector.X,
-                data.UnitVector.Y,
-                data.UnitVector.Z);
+            _rotation = Quaternion.LookRotation(data, Vector3.up);
         };
-        source.Start();
+        _source.Start();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        /*
-        timer += Time.deltaTime;
-        
-        float x = Mathf.Sin(timer) * 30f;
-        float y = Mathf.Sin(timer * 0.5f) * 45f;
-        float z = Mathf.Sin(timer * 0.8f) * 60f;
-
-        transform.rotation = Quaternion.Euler(x, y, z);
-        */
-
-        transform.rotation = rotation;
+        if (_source.IsActive)
+        {
+            transform.rotation = _rotation;
+        }
     }
 
     private void OnDestroy()
     {
-        source.Dispose();
+        _source.Dispose();
     }
 }
