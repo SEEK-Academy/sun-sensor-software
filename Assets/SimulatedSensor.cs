@@ -1,32 +1,35 @@
+using Assets.Scripts.Configurations;
 using Assets.Scripts.Interfaces;
-using Assets.Scripts.Sources.UsbSunSensor;
+using Assets.Scripts.Sources;
 using UnityEngine;
 
 public class SimulatedSensor : MonoBehaviour
 {
-    readonly ISunVectorRealtimeSource source = new FakedCentralSequenceSunSensorSource();
-    Quaternion rotation = Quaternion.identity;
+    private ISunVectorRealtimeSource _source;
+    private Quaternion _rotation = Quaternion.identity;
 
     private void Awake()
     {
-        source.DataReceived += (data) =>
+        _source = SourceFactory.CreateSunVectorRealtimeSource(ConfigHost.AppSettings);
+
+        _source.DataReceived += (data) =>
         {
             Debug.Log($"Data {data}");
-            rotation = Quaternion.LookRotation(data, Vector3.up);
+            _rotation = Quaternion.LookRotation(data, Vector3.up);
         };
-        source.Start();
+        _source.Start();
     }
 
     private void Update()
     {
-        if (source.IsActive)
+        if (_source.IsActive)
         {
-            transform.rotation = rotation;
+            transform.rotation = _rotation;
         }
     }
 
     private void OnDestroy()
     {
-        source.Dispose();
+        _source.Dispose();
     }
 }

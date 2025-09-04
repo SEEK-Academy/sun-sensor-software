@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Interfaces
 {
-    internal interface ISunVectorRealtimeSource : IDisposable
+    public interface ISunVectorRealtimeSource : IDisposable
     {
         event Action<Vector3> DataReceived;
         bool IsActive { get; }
