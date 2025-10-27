@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Sources.UsbSunSensor
 {
-    internal class FakedCentralSequenceSunSensorSource : ISunVectorRealtimeSource
+    internal class FakedCentralSequenceSunSensorSource : MonoBehaviour, ISunVectorRealtimeSource
     {
         private readonly float _angularSpeedDegPerSec = 30f;
         private readonly float _sampleRateHz = 100f;
