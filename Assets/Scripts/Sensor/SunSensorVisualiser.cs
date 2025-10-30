@@ -18,11 +18,11 @@ public class SunSensorVisualizer : MonoBehaviour
         {
             source.DataReceived += OnDataReceived;
             source.Start();
-            Debug.Log("🌞 Subskrybowano FakedUsbSunSensorSource");
+            Debug.Log("Subskrybowano FakedUsbSunSensorSource");
         }
         else
         {
-            Debug.LogError("❌ Brak przypisanego źródła danych!");
+            Debug.LogError("Brak przypisanego źródła danych!");
         }
     }
 
