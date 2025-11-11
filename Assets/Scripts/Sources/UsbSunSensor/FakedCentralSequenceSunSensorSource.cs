@@ -1,11 +1,13 @@
 ﻿using Assets.Scripts.Interfaces;
+using Seek.SunSensor.V1;
 using System;
 using System.Collections;
 using UnityEngine;
 
 namespace Assets.Scripts.Sources.UsbSunSensor
 {
-    internal class FakedCentralSequenceSunSensorSource : MonoBehaviour, ISunVectorRealtimeSource
+    internal class FakedCentralSequenceSunSensorSource 
+        : MonoBehaviour, ISunVectorRealtimeSource, ISunSensorRealtimeSource
     {
         private readonly float _angularSpeedDegPerSec = 30f;
         private readonly float _sampleRateHz = 100f;
@@ -25,6 +27,7 @@ namespace Assets.Scripts.Sources.UsbSunSensor
         private CoroutineHost _host;
 
         public event Action<Vector3> VectorReceived;
+        public event Action<SunSensorData> DataReceived;
 
         public bool IsActive { get; private set; }
 
@@ -84,7 +87,7 @@ namespace Assets.Scripts.Sources.UsbSunSensor
             {
                 try
                 {
-                    UnityEngine.Object.Destroy(_host.gameObject);
+                    Destroy(_host.gameObject);
                 }
                 catch { }
 
@@ -95,10 +98,21 @@ namespace Assets.Scripts.Sources.UsbSunSensor
         private IEnumerator RunOrbit()
         {
             var tick = 1f / _sampleRateHz;
-
             var current = _sequence[0] * _radius;
-            DataReceived?.Invoke(current);
+            var data = new SunSensorData()
+            {
+                UnitVector = new Vector()
+                {
+                    X = current.x,
+                    Y = current.y,
+                    Z = current.z
+                },
+                StdDeviation = 0f,
+                Crc32 = 0,
+                ErrorCode = ErrorCode.Ok
+            };
             VectorReceived?.Invoke(current);
+            DataReceived?.Invoke(data);
 
             var i = 0;
             while (true)
@@ -107,19 +121,32 @@ namespace Assets.Scripts.Sources.UsbSunSensor
                 Vector3 to = _sequence[(i + 1) % _sequence.Length];
 
                 // Kąt między wektorami i czas przejścia przy zadanej prędkości kątowej
-                float angle = Vector3.Angle(from, to);
-                float duration = Mathf.Max(0.0001f, angle / _angularSpeedDegPerSec);
+                var angle = Vector3.Angle(from, to);
+                var duration = Mathf.Max(0.0001f, angle / _angularSpeedDegPerSec);
 
                 // Sferyczna interpolacja (SLERP) z równomierną prędkością kątową
-                float t = 0f;
+                var t = 0f;
                 while (t < 1f)
                 {
                     // Czasu dyskretny o stałym kroku, żeby wyniki były bardziej powtarzalne
                     t = Mathf.Min(1f, t + tick / duration);
-                    Vector3 dir = Vector3.Slerp(from, to, t).normalized;
+                    var dir = Vector3.Slerp(from, to, t).normalized;
                     current = dir * _radius;
+                    data = new SunSensorData()
+                    {
+                        UnitVector = new Vector()
+                        {
+                            X = current.x,
+                            Y = current.y,
+                            Z = current.z
+                        },
+                        StdDeviation = 0f,
+                        Crc32 = 0,
+                        ErrorCode = ErrorCode.Ok
+                    };
 
                     VectorReceived?.Invoke(current);
+                    DataReceived?.Invoke(data);
 
                     yield return new WaitForSeconds(tick);
                 }
@@ -127,11 +154,24 @@ namespace Assets.Scripts.Sources.UsbSunSensor
                 // Opcjonalna pauza na centralnej sekwencji
                 if (_pauseAtVertexSec > 0f)
                 {
-                    float elapsed = 0f;
-                    Vector3 hold = to.normalized * _radius;
+                    var elapsed = 0f;
+                    var hold = to.normalized * _radius;
+                    var holdData = new SunSensorData()
+                    {
+                        UnitVector = new Vector()
+                        {
+                            X = hold.x,
+                            Y = hold.y,
+                            Z = hold.z
+                        },
+                        StdDeviation = 0f,
+                        Crc32 = 0,
+                        ErrorCode = ErrorCode.Ok
+                    };
                     while (elapsed < _pauseAtVertexSec)
                     {
                         VectorReceived?.Invoke(hold);
+                        DataReceived?.Invoke(holdData);
                         elapsed += tick;
                         yield return new WaitForSeconds(tick);
                     }
