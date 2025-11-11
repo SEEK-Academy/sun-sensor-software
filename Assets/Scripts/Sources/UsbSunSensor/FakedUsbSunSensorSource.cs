@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Sources.UsbSunSensor
 {
-    internal class FakedUsbSunSensorSource : ISunSensorRealtimeSource
+    public class FakedUsbSunSensorSource : MonoBehaviour, ISunSensorRealtimeSource
     {
         private CancellationTokenSource _cts;
         private Task _readTask;
