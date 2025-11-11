@@ -15,5 +15,14 @@ namespace Assets.Scripts.Sources
                 _ => throw new NotImplementedException($"`{nameof(ISunVectorRealtimeSource)}` is not implemented for `{settings.Mode}`.")
             };
         }
+
+        public static ISunSensorRealtimeSource CreateSunSensorRealtimeSource(AppSettings settings)
+        {
+            return settings.Mode switch
+            {
+                AppMode.Prod => new ProdSunSensorSource(settings.UsbSettings),
+                _ => throw new NotImplementedException($"`{nameof(ISunSensorRealtimeSource)}` is not implemented for `{settings.Mode}`.")
+            };
+        }
     }
 }
