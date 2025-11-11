@@ -12,7 +12,7 @@ public class SimulatedSensor : MonoBehaviour
     {
         _source = SourceFactory.CreateSunVectorRealtimeSource(ConfigHost.AppSettings);
 
-        _source.DataReceived += (data) =>
+        _source.VectorReceived += (data) =>
         {
             Debug.Log($"Data {data}");
             _rotation = Quaternion.LookRotation(data, Vector3.up);

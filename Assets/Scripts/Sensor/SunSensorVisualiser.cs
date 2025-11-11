@@ -1,10 +1,10 @@
 using UnityEngine;
 using Seek.SunSensor.V1;
-using Assets.Scripts.Sources.UsbSunSensor;
+using Assets.Scripts.Interfaces;
 
 public class SunSensorVisualizer : MonoBehaviour
 {
-    public FakedUsbSunSensorSource source; // przeciągnij z inspektora
+    public ISunSensorRealtimeSource source; // przeciągnij z inspektora
     public Transform sphere;               // kulka do wizualizacji
     public float distanceScale = 10f;     // skala odległości
 
