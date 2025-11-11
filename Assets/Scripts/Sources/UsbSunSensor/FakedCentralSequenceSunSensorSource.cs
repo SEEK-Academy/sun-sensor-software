@@ -24,7 +24,7 @@ namespace Assets.Scripts.Sources.UsbSunSensor
         private Coroutine _runner;
         private CoroutineHost _host;
 
-        public event Action<Vector3> DataReceived;
+        public event Action<Vector3> VectorReceived;
 
         public bool IsActive { get; private set; }
 
@@ -98,6 +98,7 @@ namespace Assets.Scripts.Sources.UsbSunSensor
 
             var current = _sequence[0] * _radius;
             DataReceived?.Invoke(current);
+            VectorReceived?.Invoke(current);
 
             var i = 0;
             while (true)
@@ -118,7 +119,7 @@ namespace Assets.Scripts.Sources.UsbSunSensor
                     Vector3 dir = Vector3.Slerp(from, to, t).normalized;
                     current = dir * _radius;
 
-                    DataReceived?.Invoke(current);
+                    VectorReceived?.Invoke(current);
 
                     yield return new WaitForSeconds(tick);
                 }
@@ -130,7 +131,7 @@ namespace Assets.Scripts.Sources.UsbSunSensor
                     Vector3 hold = to.normalized * _radius;
                     while (elapsed < _pauseAtVertexSec)
                     {
-                        DataReceived?.Invoke(hold);
+                        VectorReceived?.Invoke(hold);
                         elapsed += tick;
                         yield return new WaitForSeconds(tick);
                     }
