@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Seek.SunSensor.V1;
-using Assets.Scripts.Sources.UsbSunSensor;
+using Assets.Scripts.Interfaces;
 
 public class SunSensorVectorDebugger : MonoBehaviour
 {
-    public FakedUsbSunSensorSource sunSensor;
+    public ISunSensorRealtimeSource sunSensor;
     public Transform sensorTransform;
     public Transform sunSphere;
     public float lineLength = 5f;

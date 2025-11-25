@@ -1,10 +1,9 @@
-﻿using System;
-
-namespace Assets.Scripts.Models.Config
+﻿namespace Assets.Scripts.Models.Config
 {
     public enum AppMode
     {
         Prod,
-        TestCentralSequence
+        TestCentralSequence,
+        TestRandom
     }
 }
