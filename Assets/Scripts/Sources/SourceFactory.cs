@@ -12,6 +12,7 @@ namespace Assets.Scripts.Sources
             return settings.Mode switch
             {
                 AppMode.TestCentralSequence => new FakedCentralSequenceSunSensorSource(),
+                AppMode.TestRandom => new FakedRandomUsbSunSensorSource(),
                 _ => throw new NotImplementedException($"`{nameof(ISunVectorRealtimeSource)}` is not implemented for `{settings.Mode}`.")
             };
         }
@@ -21,6 +22,8 @@ namespace Assets.Scripts.Sources
             return settings.Mode switch
             {
                 AppMode.Prod => new ProdSunSensorSource(settings.UsbSettings),
+                AppMode.TestCentralSequence => new FakedCentralSequenceSunSensorSource(),
+                AppMode.TestRandom => new FakedRandomUsbSunSensorSource(),
                 _ => throw new NotImplementedException($"`{nameof(ISunSensorRealtimeSource)}` is not implemented for `{settings.Mode}`.")
             };
         }
