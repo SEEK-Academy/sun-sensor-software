@@ -1,9 +1,11 @@
 using UnityEngine;
+using Assets.Scripts.Sources.UsbSunSensor;
 using Assets.Scripts.Interfaces;
 
 public class SunSensorLogger : MonoBehaviour
 {
-    public ISunSensorRealtimeSource sunSensor;
+    public FakedUsbSunSensorSource sunSensor;
+    //public ISunSensorRealtimeSource sunSensor;
 
     void OnEnable()
     {

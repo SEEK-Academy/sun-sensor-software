@@ -1,13 +1,16 @@
 using UnityEngine;
 using Assets.Scripts.Sources.UsbSunSensor;
 using Seek.SunSensor.V1;
+using Assets.Scripts.Interfaces;
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
-public class LightConeController : MonoBehaviour
+public class LightCone : MonoBehaviour
 {
     [Header("References")]
     public Transform lightSource;                 // sfera z Point Light
     public Transform sensor;                      // cube (cel)
+
+    //public ISunSensorRealtimeSource sunSensor;
     public FakedUsbSunSensorSource sunSensor;     // źródło danych
 
     [Header("Cone Settings")]

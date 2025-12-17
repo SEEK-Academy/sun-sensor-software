@@ -1,5 +1,7 @@
 using Seek.SunSensor.V1;
 using UnityEngine;
+using Assets.Scripts.Models.Config;
+using Assets.Scripts.Configurations;
 
 public class CameraOrbit : MonoBehaviour
 {
@@ -42,11 +44,58 @@ public class CameraOrbit : MonoBehaviour
         y = angles.x;
         currentDistance = distance;
 
+        LoadConfigFromHost();
+
         startRotation = transform.rotation;
         startDistance = distance;
 
         if (TryGetComponent<Rigidbody>(out Rigidbody rb))
             rb.freezeRotation = true;
+    }
+
+    private void LoadConfigFromHost()
+    {
+        if (ConfigHost.AppSettings == null)
+        { 
+            try
+            {
+                var provider = new FileAppSettingsProvider();
+                ConfigHost.Initialize(provider.Load());
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError(e.Message);
+                return;
+            }
+        }
+
+        var settings = ConfigHost.AppSettings; 
+
+        if (settings != null && settings.UsbSettings != null)
+        {
+            currentDistance = settings.UsbSettings.CameraStartDistance;
+            ApplyCameraPosition(settings.UsbSettings.CameraStartOrientation);
+
+            Debug.Log($"[CameraOrbit] Załadowano config: Pos={settings.UsbSettings.CameraStartOrientation}, Dist={currentDistance}");
+        }
+    }
+
+    private void ApplyCameraPosition(int index)
+    {
+        Vector3 direction = Vector3.forward;
+        switch (index)
+        {
+            case 1: direction = Vector3.forward; break; // Przód RED
+            case 2: direction = Vector3.back; break;    // Tył BLUE
+            case 3: direction = Vector3.left; break;    // Lewo GREEN
+            case 4: direction = Vector3.right; break;   // Prawo YELLOW
+            case 5: direction = Vector3.up; break;      // Góra WHITE
+            case 6: direction = Vector3.down; break;    // Dół GRAY
+            default: direction = Vector3.forward; break; // Domyślnie przód
+
+        }
+
+        SetPredefinedView(direction);
     }
 
     void LateUpdate()

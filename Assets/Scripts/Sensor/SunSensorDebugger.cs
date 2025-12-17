@@ -2,14 +2,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using Seek.SunSensor.V1;
 using Assets.Scripts.Sources.UsbSunSensor;
+using Assets.Scripts.Interfaces;
 
 public class SunSensorDebugger : MonoBehaviour
 {
     [Header("References")]
+    //public ISunSensorRealtimeSource sunSensor;
     public FakedUsbSunSensorSource sunSensor;
+
     public Transform sensorTransform;
     public Transform sunSphere;
-    public LightConeController lightCone;     // <<- Twój stożek
+    public LightCone lightCone;     // <<- Twój stożek
 
     [Header("Debug")]
     //public float lineLength = 5f;             // długość linii debugowych

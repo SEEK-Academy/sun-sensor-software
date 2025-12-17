@@ -5,17 +5,25 @@ using UnityEngine;
 
 public class SimulatedSensor : MonoBehaviour
 {
-    private ISunVectorRealtimeSource _source;
+    private ISunSensorRealtimeSource _source;
     private Quaternion _rotation = Quaternion.identity;
 
     private void Awake()
     {
-        _source = SourceFactory.CreateSunVectorRealtimeSource(ConfigHost.AppSettings);
+        _source = (ISunSensorRealtimeSource) SourceFactory.CreateSunVectorRealtimeSource(ConfigHost.AppSettings);
 
         _source.VectorReceived += (data) =>
         {
-            Debug.Log($"Data {data}");
-            _rotation = Quaternion.LookRotation(data, Vector3.up);
+            Vector3 direction = new Vector3(
+                (float)data.UnitVector.X,
+                (float)data.UnitVector.Y,
+                (float)data.UnitVector.Z
+            );
+
+            if (direction != Vector3.zero)
+            {
+                _rotation = Quaternion.LookRotation(direction, Vector3.up);
+            }
         };
         _source.Start();
     }
