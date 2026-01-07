@@ -9,7 +9,7 @@ public class CameraOrbit : MonoBehaviour
     public Transform target;
 
     [Header("Distance and speed")]
-    public float distance = 30f;
+    public float distance;
     public float minDistance = 2f;
     public float maxDistance = 20f;
     public float xSpeed = 120f;
@@ -55,20 +55,6 @@ public class CameraOrbit : MonoBehaviour
 
     private void LoadConfigFromHost()
     {
-        if (ConfigHost.AppSettings == null)
-        { 
-            try
-            {
-                var provider = new FileAppSettingsProvider();
-                ConfigHost.Initialize(provider.Load());
-            }
-            catch (System.Exception e)
-            {
-                Debug.LogError(e.Message);
-                return;
-            }
-        }
-
         var settings = ConfigHost.AppSettings; 
 
         if (settings != null && settings.UsbSettings != null)

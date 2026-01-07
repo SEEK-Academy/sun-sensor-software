@@ -28,7 +28,7 @@ namespace Assets.Scripts.Models.Config
                 ReadTimeout = 500,
                 ReadInterval = 100,
                 CameraStartOrientation = 1,
-                CameraStartDistance = 70f
+                CameraStartDistance = 150f
             };
         }
     }
