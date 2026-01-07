@@ -1,16 +1,25 @@
 using UnityEngine;
 using Assets.Scripts.Sources.UsbSunSensor;
 using Assets.Scripts.Interfaces;
+using Assets.Scripts.Sources;
+using Assets.Scripts.Configurations;
 
 public class SunSensorLogger : MonoBehaviour
 {
-    public FakedUsbSunSensorSource sunSensor;
-    //public ISunSensorRealtimeSource sunSensor;
+    //public FakedUsbSunSensorSource sunSensor;
+    public ISunSensorRealtimeSource sunSensor;
+
+    void Start()
+    {
+        sunSensor = SourceFactory.CreateSunSensorRealtimeSource(ConfigHost.AppSettings);
+    }
 
     void OnEnable()
     {
         if (sunSensor != null)
             sunSensor.DataReceived += OnDataReceived;
+
+        
     }
 
     void OnDisable()
