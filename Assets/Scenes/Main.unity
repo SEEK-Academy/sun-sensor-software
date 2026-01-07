@@ -159,8 +159,8 @@ Camera:
   m_GameObject: {fileID: 225234771}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -225,18 +225,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 225234771}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 609a556631b334d9f99389c4cad85c62, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a8d27ae1bbdc4571bf82af7b791e560, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 472258580}
-  distance: 70
-  minDistance: 20
+  distance: 50
+  minDistance: 10
   maxDistance: 170
   xSpeed: 240
   ySpeed: 240
   scrollSpeed: 5
-  yMinLimit: -20
-  yMaxLimit: 80
+  keyboardOrbitSpeed: 60
+  keyboardZoomSpeed: 10
+  yMinLimit: -90
+  yMaxLimit: 90
 --- !u!1 &345452188
 GameObject:
   m_ObjectHideFlags: 0
@@ -281,7 +283,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 7
+  m_Intensity: 12
   m_Range: 17
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -349,6 +351,7 @@ GameObject:
   - component: {fileID: 472258585}
   - component: {fileID: 472258586}
   - component: {fileID: 472258587}
+  - component: {fileID: 472258588}
   m_Layer: 0
   m_Name: SunSensor
   m_TagString: Untagged
@@ -397,7 +400,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: ab63d2e4e55224f749fa155fc3172977, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -475,12 +478,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 472258576}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 062b2bf0a21ec42f69d1eeeb1dab3f18, type: 3}
+  m_Script: {fileID: 11500000, guid: 0a9dd6b4a6bbf8543ae3d54e2cf82655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  source: {fileID: 472258582}
-  sphere: {fileID: 2066125854}
-  distanceScale: 20
 --- !u!114 &472258585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -502,10 +502,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 472258576}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2bee3725518894c21ada581e363cb672, type: 3}
+  m_Script: {fileID: 11500000, guid: 67379cb6321ef49b49b0dac54639ee4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sunSensor: {fileID: 472258582}
+  source: {fileID: 472258582}
+  sphere: {fileID: 2066125854}
+  distanceScale: 20
 --- !u!114 &472258587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -515,13 +517,125 @@ MonoBehaviour:
   m_GameObject: {fileID: 472258576}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d17be765f031240729bfd71293502d7c, type: 3}
+  m_Script: {fileID: 11500000, guid: 4ece3135da31a49cd80104a8b11575b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sunSensor: {fileID: 472258582}
-  sensorTransform: {fileID: 472258580}
-  sunSphere: {fileID: 2066125854}
-  lineLength: 50
+--- !u!114 &472258588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 472258576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7893659946754a0ea70e63c5fd7a1ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &701027639
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 701027641}
+  - component: {fileID: 701027640}
+  - component: {fileID: 701027643}
+  - component: {fileID: 701027642}
+  m_Layer: 0
+  m_Name: LightCone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &701027640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701027639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 513320d5020d34f78b883e35136e4a53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightSource: {fileID: 345452189}
+  sensor: {fileID: 472258580}
+  sunSensor: {fileID: 472258582}
+  baseRadius: 1.7
+  maxRadius: 0.5
+  lengthScale: 1
+  deviationFactor: 0.01
+--- !u!4 &701027641
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701027639}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 40, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &701027642
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701027639}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &701027643
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701027639}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &735263350
 GameObject:
   m_ObjectHideFlags: 0
@@ -629,6 +743,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 400df0f9fd86a49dea6e0566f128db6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1071543776
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1071543778}
+  - component: {fileID: 1071543777}
+  m_Layer: 0
+  m_Name: Starfield
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1071543777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1071543776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d30d18797edb144979dfa798a47538b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  starCount: 500
+  minDistance: 15
+  maxDistance: 25
+  starSize: 0.05
+--- !u!4 &1071543778
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1071543776}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2066125850
 GameObject:
   m_ObjectHideFlags: 0
@@ -728,7 +890,7 @@ Transform:
   m_GameObject: {fileID: 2066125850}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20, y: 0, z: 0}
+  m_LocalPosition: {x: 40, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -743,3 +905,5 @@ SceneRoots:
   - {fileID: 735263352}
   - {fileID: 472258580}
   - {fileID: 2066125854}
+  - {fileID: 1071543778}
+  - {fileID: 701027641}
