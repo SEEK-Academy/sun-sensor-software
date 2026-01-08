@@ -57,7 +57,7 @@ Official documentation: [GitHub flow](https://docs.github.com/get-started/quicks
 
 2. Commit
 
-   - Use [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/)
+   - Use [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/) and push.
 
 3. Keep branch up to date
 
@@ -78,7 +78,7 @@ Official documentation: [GitHub flow](https://docs.github.com/get-started/quicks
 5. Merge
 
    - Mergujemy PR na GitHubie jako **merge commit** (odpowiednik `git merge --no-ff`). Dokumentacja: [Merging a pull request](https://docs.github.com/pull-requests/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request/merging-a-pull-request)
-   - Na GitHubie lub z komendy usuwamy branch.
+   - Delete branch on GitHub or from command line.
 
 6. Cleanup
 
