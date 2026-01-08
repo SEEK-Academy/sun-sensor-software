@@ -2,14 +2,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using Seek.SunSensor.V1;
 using Assets.Scripts.Sources.UsbSunSensor;
+using Assets.Scripts.Interfaces;
+using Assets.Scripts.Configurations;
+using Assets.Scripts.Sources;
 
 public class SunSensorDebugger : MonoBehaviour
 {
     [Header("References")]
-    public FakedUsbSunSensorSource sunSensor;
+    public ISunSensorRealtimeSource sunSensor;
+    //public FakedUsbSunSensorSource sunSensor;
+
     public Transform sensorTransform;
     public Transform sunSphere;
-    public LightConeController lightCone;     // <<- Twój stożek
+    public LightCone lightCone;     // <<- Twój stożek
 
     [Header("Debug")]
     //public float lineLength = 5f;             // długość linii debugowych
@@ -18,10 +23,17 @@ public class SunSensorDebugger : MonoBehaviour
     private Queue<Vector3> dataQueue = new Queue<Vector3>();
     private Vector3 latestVector;
 
+    void Start()
+    {
+        sunSensor = SourceFactory.CreateSunSensorRealtimeSource(ConfigHost.AppSettings);
+    }
+
     void OnEnable()
     {
         if (sunSensor != null)
             sunSensor.DataReceived += OnDataReceivedThreadSafe;
+
+        //sunSensor = SourceFactory.CreateSunSensorRealtimeSource(ConfigHost.AppSettings);
     }
 
     void OnDisable()

@@ -1,14 +1,19 @@
 using UnityEngine;
 using Assets.Scripts.Sources.UsbSunSensor;
 using Seek.SunSensor.V1;
+using Assets.Scripts.Interfaces;
+using Assets.Scripts.Sources;
+using Assets.Scripts.Configurations;
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
-public class LightConeController : MonoBehaviour
+public class LightCone : MonoBehaviour
 {
     [Header("References")]
     public Transform lightSource;                 // sfera z Point Light
     public Transform sensor;                      // cube (cel)
-    public FakedUsbSunSensorSource sunSensor;     // źródło danych
+
+    public ISunSensorRealtimeSource sunSensor;
+    //public FakedUsbSunSensorSource sunSensor;     // źródło danych
 
     [Header("Cone Settings")]
     public float baseRadius = 0.2f;               // promień podstawy przy sensorze
@@ -27,6 +32,8 @@ public class LightConeController : MonoBehaviour
 
         if (sunSensor != null)
             sunSensor.DataReceived += OnSensorData;
+
+         sunSensor = SourceFactory.CreateSunSensorRealtimeSource(ConfigHost.AppSettings);
     }
 
     void OnDestroy()
