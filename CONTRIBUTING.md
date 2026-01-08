@@ -57,7 +57,7 @@ Official documentation: [GitHub flow](https://docs.github.com/get-started/quicks
 
 2. Commit
 
-   - Use [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/)
+   - Use [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/) and push.
 
 3. Keep branch up to date
 
