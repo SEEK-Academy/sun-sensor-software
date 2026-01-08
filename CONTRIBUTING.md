@@ -4,13 +4,13 @@
 
 Follow these steps to get the project up and running:
 
-1. Install Unity Hub 
+1. Install Unity Hub
 
 - Download and install [Unity Hub](https://unity.com/download).
 
 2. Install Unity Editor
 
-- In Unity Hub, switch to the "Installs/Add Unity Editor".  
+- In Unity Hub, switch to the "Installs/Add Unity Editor".
 - Install version **2022.3.19f1**.
 
 3. Install Visual Studio
@@ -20,9 +20,9 @@ Follow these steps to get the project up and running:
 
 4. Clone repository
 
-	```bash
-	git clone https://github.com/SEEK-Academy/sun-sensor-software.git
-	```
+   ```bash
+   git clone https://github.com/SEEK-Academy/sun-sensor-software.git
+   ```
 
 5. Project in Unity Editor
 
@@ -45,35 +45,53 @@ Official documentation [C# Coding Conventions](https://learn.microsoft.com/dotne
 
 ## GitHub Flow
 
-Official documentation [GitHub Flow](https://docs.github.com/en/get-started/using-github/github-flow)
+Official documentation: [GitHub flow](https://docs.github.com/get-started/quickstart/github-flow)
 
 1. Branch
 
    ```bash
    git checkout main
-   git pull
-   git checkout -b feat/short-name
+   git pull --ff-only
+   git checkout -b short-name
    ```
 
 2. Commit
 
-	[Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/)
+   - Use [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/)
 
-3. Pull Request
+3. Keep branch up to date
 
-	Push your branch and open a Pull Request against `main`.
+   ```bash
+   git fetch origin
+   git merge --no-ff origin/main
+   ```
 
-4. Merge
+4. Pull Request
+
+   ```bash
+   git push -u origin short-name
+   ```
+
+   - Open a Pull Request against `main`.
+   - Ensure required checks are green.
+
+5. Merge
+
+   - Mergujemy PR na GitHubie jako **merge commit** (odpowiednik `git merge --no-ff`). Dokumentacja: [Merging a pull request](https://docs.github.com/pull-requests/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request/merging-a-pull-request)
+   - Na GitHubie lub z komendy usuwamy branch.
+
+6. Cleanup
 
    ```bash
    git checkout main
-   git merge --no-ff feat/short-name
-   git push
+   git pull --ff-only
+   git branch -d short-name
+   git fetch --prune
    ```
 
-5. Cleanup
+   - If the remote branch still exists:
+   
+     ```bash
+     git push origin --delete short-name
+     ```
 
-   ```bash
-   git branch -d feat/short-name
-   git push origin --delete feat/short-name
-   ```
