@@ -1,10 +1,15 @@
 using UnityEngine;
 using Seek.SunSensor.V1;
+using Assets.Scripts.Sources.UsbSunSensor;
 using Assets.Scripts.Interfaces;
+using Assets.Scripts.Configurations;
+using Assets.Scripts.Sources;
 
 public class SunSensorVisualizer : MonoBehaviour
 {
-    public ISunSensorRealtimeSource source; // przeciągnij z inspektora
+    public ISunSensorRealtimeSource source;
+    //public FakedUsbSunSensorSource source; // przeciągnij z inspektora
+
     public Transform sphere;               // kulka do wizualizacji
     public float distanceScale = 10f;     // skala odległości
 
@@ -12,8 +17,16 @@ public class SunSensorVisualizer : MonoBehaviour
     private bool _hasNewData = false;
     private readonly object _lock = new object();
 
+    //void Start()
+    //{
+        //source = SourceFactory.CreateSunSensorRealtimeSource(ConfigHost.AppSettings);
+
+    //}
+
     private void OnEnable()
     {
+        source = SourceFactory.CreateSunSensorRealtimeSource(ConfigHost.AppSettings);
+
         if (source != null)
         {
             source.DataReceived += OnDataReceived;
@@ -24,6 +37,8 @@ public class SunSensorVisualizer : MonoBehaviour
         {
             Debug.LogError("Brak przypisanego źródła danych!");
         }
+
+        
     }
 
     private void OnDisable()

@@ -1,10 +1,16 @@
 using Seek.SunSensor.V1;
 using UnityEngine;
+using Assets.Scripts.Models.Config;
+using Assets.Scripts.Configurations;
 
-public class OrientationMarkers : MonoBehaviour
+public class Markers : MonoBehaviour
 {
     void Start()
     {
+        if (ConfigHost.AppSettings != null && ConfigHost.AppSettings.Mode == AppMode.Prod)
+            return;
+        
+
         CreateMarker(Vector3.forward, Color.red, "FRONT");
         CreateMarker(Vector3.back, Color.blue, "BACK");
         CreateMarker(Vector3.left, Color.green, "LEFT");

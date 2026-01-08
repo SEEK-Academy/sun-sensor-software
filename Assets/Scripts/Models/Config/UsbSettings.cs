@@ -12,6 +12,8 @@ namespace Assets.Scripts.Models.Config
         public int PacketSize;
         public int ReadTimeout;
         public int ReadInterval;
+        public int CameraStartOrientation;
+        public float CameraStartDistance;
 
         internal static UsbSettings GetDefault()
         {
@@ -24,7 +26,9 @@ namespace Assets.Scripts.Models.Config
                 TransferType = "Bulk",
                 PacketSize = 512,
                 ReadTimeout = 500,
-                ReadInterval = 100
+                ReadInterval = 100,
+                CameraStartOrientation = 1,
+                CameraStartDistance = 70f
             };
         }
     }
