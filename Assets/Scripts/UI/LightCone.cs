@@ -60,34 +60,26 @@ public class LightCone : MonoBehaviour
 
         transform.position = lightSource.position;
 
-        // oblicz kierunek światła
-        Vector3 direction = currentDirection.normalized;
-        if (direction == Vector3.zero)
-            direction = (sensor.position - lightSource.position).normalized;
+        Vector3 directionToSensor = (sensor.position - lightSource.position).normalized;
 
-        transform.rotation = Quaternion.LookRotation(-direction, Vector3.up);
+        transform.rotation = Quaternion.LookRotation(directionToSensor);
 
-        // oblicz kąt między światłem a osią sensora
-        Vector3 incident = currentDirection.normalized;
-        Vector3 trueDir = (sensor.position - lightSource.position).normalized;
+        float angle = Vector3.Angle(currentDirection.normalized, directionToSensor);
 
-        float angle = Vector3.Angle(incident, trueDir);
-        currentDeviation = Mathf.Lerp(0.0f, deviationFactor, angle / 90f);
+        currentDeviation = Mathf.Clamp01(angle / 90f) * deviationFactor;
 
-
-        // odległość
         float distance = Vector3.Distance(lightSource.position, sensor.position);
-
-        // szerokość stożka
         float radius = Mathf.Lerp(baseRadius, maxRadius, currentDeviation);
 
         transform.localScale = new Vector3(radius, radius, distance * lengthScale);
+
+        Debug.DrawRay(lightSource.position, directionToSensor * distance, Color.yellow);
     }
 
 
 
-// --- prosty stożek w osi Z ---
-Mesh CreateConeMesh()
+    // --- prosty stożek w osi Z ---
+    Mesh CreateConeMesh()
     {
         Mesh mesh = new Mesh();
         int segments = 24;

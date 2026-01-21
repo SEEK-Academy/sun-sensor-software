@@ -10,7 +10,6 @@ public class SunSensorDebugger : MonoBehaviour
 {
     [Header("References")]
     public ISunSensorRealtimeSource sunSensor;
-    //public FakedUsbSunSensorSource sunSensor;
 
     public Transform sensorTransform;
     public Transform sunSphere;

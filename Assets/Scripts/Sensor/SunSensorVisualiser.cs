@@ -8,7 +8,6 @@ using Assets.Scripts.Sources;
 public class SunSensorVisualizer : MonoBehaviour
 {
     public ISunSensorRealtimeSource source;
-    //public FakedUsbSunSensorSource source; // przeciągnij z inspektora
 
     public Transform sphere;               // kulka do wizualizacji
     public float distanceScale = 10f;     // skala odległości
@@ -16,12 +15,6 @@ public class SunSensorVisualizer : MonoBehaviour
     private Vector3 _latestDirection;
     private bool _hasNewData = false;
     private readonly object _lock = new object();
-
-    //void Start()
-    //{
-        //source = SourceFactory.CreateSunSensorRealtimeSource(ConfigHost.AppSettings);
-
-    //}
 
     private void OnEnable()
     {

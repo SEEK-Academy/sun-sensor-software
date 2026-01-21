@@ -30,6 +30,6 @@ public class SunSensorLogger : MonoBehaviour
 
     private void OnDataReceived(Seek.SunSensor.V1.SunSensorData data)
     {
-        Debug.Log($"SunSensorData: X={data.UnitVector.X:F2}, Y={data.UnitVector.Y:F2}, Z={data.UnitVector.Z:F2}");
+        Debug.Log($"SunSensorData: x={data.UnitVector.X:F2}, y={data.UnitVector.Y:F2}, z={data.UnitVector.Z:F2}");
     }
 }
