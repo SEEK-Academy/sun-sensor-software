@@ -43,6 +43,7 @@ public class SunSensorVisualizer : MonoBehaviour
     private void OnDataReceived(SunSensorData data)
     {
         Vector3 dir = new Vector3((float)data.UnitVector.X, (float)data.UnitVector.Y, (float)data.UnitVector.Z);
+        
         lock (_lock)
         {
             _latestDirection = dir.normalized;
