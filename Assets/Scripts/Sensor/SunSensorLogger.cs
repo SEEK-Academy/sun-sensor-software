@@ -1,5 +1,5 @@
 using UnityEngine;
-using TMPro; // Correct place for namespaces
+using TMPro; 
 using Assets.Scripts.Sources.UsbSunSensor;
 using Assets.Scripts.Interfaces;
 using Assets.Scripts.Sources;
@@ -20,7 +20,6 @@ public class SunSensorLogger : MonoBehaviour
         {
             sunSensor.DataReceived += OnDataReceived;
             sunSensor.Start();
-            Debug.Log($"[Logger] Próba uruchomienia sensora. IsActive: {sunSensor.IsActive}");
         }
     }
 
