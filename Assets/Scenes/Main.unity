@@ -506,7 +506,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67379cb6321ef49b49b0dac54639ee4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  source: {fileID: 472258582}
   sphere: {fileID: 2066125854}
   distanceScale: 20
 --- !u!114 &472258587
@@ -521,7 +520,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ece3135da31a49cd80104a8b11575b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sunSensor: {fileID: 472258582}
 --- !u!114 &472258588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -567,7 +565,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lightSource: {fileID: 345452189}
   sensor: {fileID: 472258580}
-  sunSensor: {fileID: 472258582}
   baseRadius: 1.7
   maxRadius: 0.5
   lengthScale: 1
@@ -774,8 +771,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   starCount: 500
-  minDistance: 15
-  maxDistance: 25
+  minDistance: 20
+  maxDistance: 50
   starSize: 0.05
 --- !u!4 &1071543778
 Transform:
