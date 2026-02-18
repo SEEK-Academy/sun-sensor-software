@@ -107,6 +107,7 @@ namespace Assets.Scripts.Sources.UsbSunSensor
                     Y = current.y,
                     Z = current.z
                 },
+
                 StdDeviation = 0f,
                 Crc32 = 0,
                 ErrorCode = ErrorCode.Ok
@@ -132,6 +133,9 @@ namespace Assets.Scripts.Sources.UsbSunSensor
                     t = Mathf.Min(1f, t + tick / duration);
                     var dir = Vector3.Slerp(from, to, t).normalized;
                     current = dir * _radius;
+
+                    float MaxCos = Mathf.Max(Mathf.Abs( data.UnitVector.X), Mathf.Abs(data.UnitVector.Y), Mathf.Abs(data.UnitVector.Z));
+
                     data = new SunSensorData()
                     {
                         UnitVector = new Vector()
@@ -140,7 +144,8 @@ namespace Assets.Scripts.Sources.UsbSunSensor
                             Y = current.y,
                             Z = current.z
                         },
-                        StdDeviation = 0f,
+             
+                        StdDeviation = 0.05f + Mathf.Abs(UnityEngine.Random.Range(-0.1f, 0.1f)) / Mathf.Sqrt(MaxCos), // base + noise/max cos
                         Crc32 = 0,
                         ErrorCode = ErrorCode.Ok
                     };
@@ -164,7 +169,7 @@ namespace Assets.Scripts.Sources.UsbSunSensor
                             Y = hold.y,
                             Z = hold.z
                         },
-                        StdDeviation = 0f,
+                        StdDeviation = 1f,
                         Crc32 = 0,
                         ErrorCode = ErrorCode.Ok
                     };

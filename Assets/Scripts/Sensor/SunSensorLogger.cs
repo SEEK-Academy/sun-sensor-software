@@ -33,7 +33,7 @@ public class SunSensorLogger : MonoBehaviour
 
     void OnDataReceived(SunSensorData data)
     {
-        _latestDataText = $"x={data.UnitVector.X:F2}, y={data.UnitVector.Y:F2}, z={data.UnitVector.Z:F2}";
+        _latestDataText = $"x={data.UnitVector.X:F2}, y={data.UnitVector.Y:F2}, z={data.UnitVector.Z:F2}\nSzacowana dokładność={1 - Mathf.Round(data.StdDeviation * 100)}%";
         Debug.Log(_latestDataText);
     }
 
