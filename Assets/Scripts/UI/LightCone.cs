@@ -30,10 +30,15 @@ public class LightCone : MonoBehaviour
         meshFilter = GetComponent<MeshFilter>();
         meshFilter.mesh = CreateConeMesh();
 
-        if (sunSensor != null)
-            sunSensor.DataReceived += OnSensorData;
+        // Najpierw tworzymy
+        sunSensor = SourceFactory.CreateSunSensorRealtimeSource(ConfigHost.AppSettings);
 
-         sunSensor = SourceFactory.CreateSunSensorRealtimeSource(ConfigHost.AppSettings);
+        // Potem podpinamy i startujemy
+        if (sunSensor != null)
+        {
+            sunSensor.DataReceived += OnSensorData;
+            sunSensor.Start();
+        }
     }
 
     void OnDestroy()
@@ -50,11 +55,14 @@ public class LightCone : MonoBehaviour
             (float)data.UnitVector.Y,
             (float)data.UnitVector.Z
         );
+
+        currentDeviation = data.StdDeviation;
     }
 
 
     void Update()
     {
+        Debug.Log(currentDeviation);
         if (lightSource == null || sensor == null)
             return;
 
@@ -65,11 +73,13 @@ public class LightCone : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(directionToSensor);
 
         float angle = Vector3.Angle(currentDirection.normalized, directionToSensor);
-
-        currentDeviation = Mathf.Clamp01(angle / 90f) * deviationFactor;
+        //currentDeviation = Mathf.Clamp01(angle / 90f) * deviationFactor;
 
         float distance = Vector3.Distance(lightSource.position, sensor.position);
-        float radius = Mathf.Lerp(baseRadius, maxRadius, currentDeviation);
+        //float radius = Mathf.Lerp(baseRadius, maxRadius, currentDeviation);
+        //float deviation = distance * lengthScale * Mathf.Tan(Mathf.Deg2Rad * angle);
+        
+        float radius = Mathf.Lerp(baseRadius, maxRadius, 1 - currentDeviation);
 
         transform.localScale = new Vector3(radius, radius, distance * lengthScale);
 
@@ -95,7 +105,7 @@ public class LightCone : MonoBehaviour
         int[] triangles = new int[segments * 3];
         for (int i = 0; i < segments; i++)
         {
-            triangles[i * 3 + 0] = 0;
+            triangles[i * 3] = 0;
             triangles[i * 3 + 1] = i + 1;
             triangles[i * 3 + 2] = i + 2;
         }

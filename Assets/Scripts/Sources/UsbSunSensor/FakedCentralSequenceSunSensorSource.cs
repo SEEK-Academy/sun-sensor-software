@@ -135,6 +135,17 @@ namespace Assets.Scripts.Sources.UsbSunSensor
                     current = dir * _radius;
 
                     float MaxCos = Mathf.Max(Mathf.Abs( data.UnitVector.X), Mathf.Abs(data.UnitVector.Y), Mathf.Abs(data.UnitVector.Z));
+                    float dmin = 0.05f + 0.1f; //base + noise (szum elektroniki + tolerancja) -> baza
+                    float dmax = 0.05f + (0.1f / 0.17f); //dmax = 0.05f + 0.1f/0.17f (base + noise/cos80deg) -> próg odcięcia
+                    float dcurr = 0.05f + Mathf.Abs(UnityEngine.Random.Range(-0.1f, 0.1f)) / Mathf.Sqrt(MaxCos);
+                    //  base     -> szum bazowy (const) 
+                    //      
+                    //    +
+                    //
+                    //  noise    -> szum elektroniki (const * )
+                    // -------
+                    // max cos   -> ()
+
 
                     data = new SunSensorData()
                     {
@@ -144,8 +155,9 @@ namespace Assets.Scripts.Sources.UsbSunSensor
                             Y = current.y,
                             Z = current.z
                         },
-             
-                        StdDeviation = 0.05f + Mathf.Abs(UnityEngine.Random.Range(-0.1f, 0.1f)) / Mathf.Sqrt(MaxCos), // base + noise/max cos
+
+                        //stdev = 1 - (dcurr - dmin / dmax - dmin)
+                        StdDeviation = 1 - Mathf.Abs((dcurr - dmin) / (dmax - dmin)),
                         Crc32 = 0,
                         ErrorCode = ErrorCode.Ok
                     };
