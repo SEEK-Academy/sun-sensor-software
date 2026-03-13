@@ -1,13 +1,17 @@
-﻿using Assets.Scripts.Interfaces;
+using Assets.Scripts.Interfaces;
 using Seek.SunSensor.V1;
+using Sunsensor;
 using System;
 using System.Collections;
 using UnityEngine;
 
 namespace Assets.Scripts.Sources.UsbSunSensor
 {
-    internal class FakedCentralSequenceSunSensorSource 
-        : MonoBehaviour, ISunVectorRealtimeSource, ISunSensorRealtimeSource
+    internal class FakedCentralSequenceSunSensorSource : 
+        MonoBehaviour, 
+        ISunVectorRealtimeSource, 
+        ISunSensorRealtimeSource, 
+        ISunSensorFrameRealtimeSource
     {
         private readonly float _angularSpeedDegPerSec = 30f;
         private readonly float _sampleRateHz = 100f;
@@ -25,9 +29,12 @@ namespace Assets.Scripts.Sources.UsbSunSensor
 
         private Coroutine _runner;
         private CoroutineHost _host;
+        private uint _frameSeq;
 
         public event Action<Vector3> VectorReceived;
         public event Action<SunSensorData> DataReceived;
+
+        public event Action<Frame> FrameReceived;
 
         public bool IsActive { get; private set; }
 
@@ -113,6 +120,7 @@ namespace Assets.Scripts.Sources.UsbSunSensor
             };
             VectorReceived?.Invoke(current);
             DataReceived?.Invoke(data);
+            FrameReceived?.Invoke(BuildFrame(current));
 
             var i = 0;
             while (true)
@@ -147,6 +155,7 @@ namespace Assets.Scripts.Sources.UsbSunSensor
 
                     VectorReceived?.Invoke(current);
                     DataReceived?.Invoke(data);
+                    FrameReceived?.Invoke(BuildFrame(current));
 
                     yield return new WaitForSeconds(tick);
                 }
@@ -172,6 +181,7 @@ namespace Assets.Scripts.Sources.UsbSunSensor
                     {
                         VectorReceived?.Invoke(hold);
                         DataReceived?.Invoke(holdData);
+                        FrameReceived?.Invoke(BuildFrame(hold));
                         elapsed += tick;
                         yield return new WaitForSeconds(tick);
                     }
@@ -179,6 +189,35 @@ namespace Assets.Scripts.Sources.UsbSunSensor
 
                 i++;
             }
+        }
+
+        private Frame BuildFrame(Vector3 direction)
+        {
+            return new Frame
+            {
+                Telemetry = new TelemetryFrame
+                {
+                    Sequence = _frameSeq++,
+                    Telemetry = new Telemetry
+                    {
+                        SunVector = new SunVector
+                        {
+                            X = direction.x,
+                            Y = direction.y,
+                            Z = direction.z,
+                            Confidence = 1f,
+                            TimestampMs = (uint)DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+                        },
+                        Status = new Status
+                        {
+                            Code = StatusCode.Ok,
+                            HealthBits = 0,
+                            AdcErrorCode = 0,
+                            HalStatus = 0
+                        }
+                    }
+                }
+            };
         }
 
         private sealed class CoroutineHost : MonoBehaviour { }
