@@ -5,14 +5,17 @@ namespace Assets.Scripts.Configurations
 {
     public static class ConfigHost
     {
-        public static AppSettings AppSettings { get; private set; }
+        private static AppSettings _appSettings;
+
+        public static AppSettings AppSettings
+            => _appSettings ?? throw new Exception($"{nameof(ConfigHost)} is not initialized properly.");
 
         public static void Initialize(AppSettings appSettings)
         {
-            if (AppSettings != null)
-                throw new InvalidOperationException("ConfigHost is already initialized.");
+            if (_appSettings != null)
+                throw new InvalidOperationException($"{nameof(ConfigHost)} is already initialized.");
 
-            AppSettings = appSettings ?? throw new ArgumentNullException(nameof(appSettings));
+            _appSettings = appSettings ?? throw new ArgumentNullException(nameof(appSettings));
         }
     }
 }
