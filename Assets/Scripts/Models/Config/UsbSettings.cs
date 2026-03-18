@@ -12,7 +12,9 @@ namespace Assets.Scripts.Models.Config
         public int PacketSize;
         public int ReadTimeout;
         public int ReadInterval;
+        [Obsolete]
         public int CameraStartOrientation;
+        [Obsolete]
         public float CameraStartDistance;
 
         internal static UsbSettings GetDefault()
